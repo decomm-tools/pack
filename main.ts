@@ -58,7 +58,7 @@ Examples:
  * await run(["seal", "./my-app"]);
  * ```
  */
-export const run = async (argv: string[]): Promise<string> => {
+export async function run(argv: string[]): Promise<string> {
   const args = parseArgs(argv);
   if (args.help || args.command === "" || args.command === "help") return HELP;
 
@@ -74,7 +74,7 @@ export const run = async (argv: string[]): Promise<string> => {
     default:
       throw new Error(`Unknown command: ${args.command}`);
   }
-};
+}
 
 if (import.meta.main) {
   try {

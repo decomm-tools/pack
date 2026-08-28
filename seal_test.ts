@@ -1,6 +1,6 @@
 import { assertEquals, assertRejects, assertStringIncludes } from "@std/assert";
 import { run } from "./main.ts";
-import { resolveEntry } from "./seal.ts";
+import { check, resolveEntry, seal } from "./seal.ts";
 
 const write = async (dir: string, name: string, text: string) => {
   await Deno.writeTextFile(`${dir}/${name}`, text);
@@ -99,6 +99,21 @@ Deno.test("resolveEntry prefers --entry then main then mod", async () => {
     await write(dir, "main.ts", "export const n = 1;\n");
     assertEquals(await resolveEntry(dir), "main.ts");
     assertEquals(await resolveEntry(dir, "mod.ts"), "mod.ts");
+  } finally {
+    await Deno.remove(dir, { recursive: true });
+  }
+});
+
+Deno.test("seal vendors a tiny project and check is ok", async () => {
+  const dir = await Deno.makeTempDir({ prefix: "decomm-pack-seal-" });
+  try {
+    await write(dir, "main.ts", 'console.log("ok");\n');
+    const sealed = await seal(dir);
+    assertStringIncludes(sealed, "Sealed");
+    const config = JSON.parse(await Deno.readTextFile(`${dir}/deno.json`));
+    assertEquals(config.vendor, true);
+    const result = await check(dir);
+    assertEquals(result, "ok\n");
   } finally {
     await Deno.remove(dir, { recursive: true });
   }
