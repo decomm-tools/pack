@@ -1,0 +1,40 @@
+{
+  "name": "@decomm/pack",
+  "version": "1.0.0",
+  "license": "MIT",
+  "exports": {
+    ".": "./main.ts",
+    "./init": "./init.ts"
+  },
+  "publish": {
+    "include": [
+      "main.ts",
+      "args.ts",
+      "seal.ts",
+      "init.ts",
+      "pack.sh",
+      "README.md",
+      "LICENSE",
+      "deno.json",
+      "jsr.json"
+    ]
+  },
+  "tasks": {
+    "pack": "deno run --allow-read --allow-write --allow-run=deno --allow-env --allow-net main.ts",
+    "compile": "mkdir -p bin && deno compile --allow-read --allow-write --allow-run=deno --allow-env --allow-net --output bin/pack main.ts",
+    "test": "deno test --allow-read --allow-write --allow-run=deno --allow-env --allow-net",
+    "check": "deno check main.ts args.ts seal.ts init.ts",
+    "fmt": "deno fmt",
+    "lint": "deno lint"
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@^1.0.19"
+  },
+  "compilerOptions": {
+    "strict": true
+  },
+  "fmt": {
+    "lineWidth": 100,
+    "indentWidth": 2
+  }
+}
