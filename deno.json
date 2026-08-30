@@ -22,7 +22,7 @@
   "tasks": {
     "pack": "deno run --allow-read --allow-write --allow-run=deno --allow-env --allow-net main.ts",
     "compile": "mkdir -p bin && deno compile --allow-read --allow-write --allow-run=deno --allow-env --allow-net --output bin/pack main.ts",
-    "test": "deno test --allow-read --allow-write --allow-run=deno --allow-env --allow-net",
+    "test": "deno test --allow-read --allow-write --allow-run --allow-env --allow-net",
     "check": "deno check main.ts args.ts seal.ts init.ts",
     "fmt": "deno fmt",
     "lint": "deno lint"

@@ -19,27 +19,41 @@ so the far side never has to fetch.
 
 ## Carry-in
 
+Init pack on a connected machine. Seal the app. Copy the **app**. Run it dark.
+
+### Init
+
 ```sh
 deno run -A jsr:@decomm/pack/init ./pack
 cd pack
 deno task compile
-./pack.sh seal ./my-app
 ```
 
-Or from this repo, on a connected machine:
+Or from this repo: `deno task compile`. That leaves `bin/pack`.
+
+### Seal (still connected)
 
 ```sh
-deno task compile
 ./pack.sh seal ./my-app
 ./pack.sh seal ./my-app --entry main.ts
 ./pack.sh check ./my-app
 ```
 
-Copy the **app** folder, including `vendor/` and `deno.lock`, onto the isolated box.
+That writes `vendor/` and `deno.lock` into `my-app`. Pack itself can stay home.
+
+### Copy
+
+Carry the **app** folder onto the isolated box — USB, sneakernet,
+[ferry](https://github.com/decomm-tools/ferry). Include `vendor/` and `deno.lock`.
+
+### Run dark
+
+No network. The box never needs to come back online.
 
 ```sh
+cd my-app
 deno run --cached-only main.ts
 ```
 
-`pack.sh` runs the compiled pack CLI if it exists, otherwise `deno run`. That binary is the tool,
-not the app. The isolated box does not need Deno if you compiled the _app_ yourself.
+`pack.sh` uses the compiled pack CLI if present, otherwise `deno run`. That binary is the tool, not
+the app. The isolated box does not need Deno if you compiled the _app_ yourself.
