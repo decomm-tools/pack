@@ -36,7 +36,6 @@ Or from this repo: `deno task compile`. That leaves `bin/pack`.
 ```sh
 ./pack.sh seal ./my-app
 ./pack.sh seal ./my-app --entry main.ts
-./pack.sh check ./my-app
 ```
 
 That writes `vendor/` and `deno.lock` into `my-app`. Pack itself can stay home.
